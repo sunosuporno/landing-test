@@ -61,7 +61,7 @@
             It pays to be you
           </p>
           <p class="mt-6 text-xl md:text-3xl w-3/5 font-body">
-            All your links, and NFTs at one place. Make connections. Make
+            All your links and NFTs at one place. Make connections. Make
             payments.
           </p>
         </div>
