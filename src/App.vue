@@ -70,12 +70,13 @@
           </p>
         </div>
       </div>
-      <div class="mt-14 lg:mt-10 flex flex-col items-center">
-        <p class="text-xl 2xl:text-3xl mb-5 font-body">
-          Sign up for the early beta!
-        </p>
+      <div
+        v-if="!isEmailGiven"
+        class="mt-2 md:mt-10 flex flex-col items-center font-body"
+      >
+        <p class="text-xl 2xl:text-3xl mb-5">Sign up for the early beta!</p>
         <form
-          class="rounded-xl xl:w-5/12 xl:h-14 2xl:h-16 bg-gradient-to-b from-[#ededed] to-[#000000] p-[2px] 2xl:p-[3px]"
+          class="rounded-xl xl:w-5/12 xl:h-14 2xl:h-16 bg-gradient-to-b from-[#999999] to-[#111111] p-[2px] 2xl:p-[3px]"
         >
           <div class="h-full w-full rounded-xl bg-[#111111]">
             <div
@@ -84,9 +85,10 @@
               <input
                 type="email"
                 placeholder="gm@gtfol.com"
-                class="xl:w-11/12 2xl:text-2xl h-full bg-[#111111] px-2 py-1 rounded-xl hover:outline-none focus:outline-none font-body"
+                class="xl:w-11/12 2xl:text-2xl h-full bg-[#111111] px-2 py-1 rounded-xl hover:outline-none focus:outline-none"
+                v-model="email"
               />
-              <button class="text-gray" @click="handleClick">
+              <button class="text-gray" @click.prevent="handleClick">
                 <img
                   src="./assets/arrow-right.svg"
                   class="w-7 xl:w-10 2xl:w-12 pr-1"
@@ -96,13 +98,103 @@
             </div>
           </div>
         </form>
+        <p v-if="error" class="text-red-400 mt-3 text-center 2xl:text-xl">
+          {{ error }}
+        </p>
+      </div>
+      <div
+        v-else
+        class="w-11/12 flex flex-col items-start lg:items-center lg:text-center mx-auto mt-2 md:mt-10 font-body"
+      >
+        <p class="text-lg lg:text-2xl xl:font-thin mb-2">
+          Thanks a lot for your interest!
+        </p>
+        <p class="text-lg lg:text-2xl xl:font-thin mb-2">
+          While you wait, join our
+          <a
+            href="https://discord.gg/sJu3cyWpzz"
+            class="hover:cursor-pointer focus:cursor-pointer hover:text-[#DA1DA5] focus:text-[#DA1DA5] transition duration-200 underline"
+            target="_blank"
+            >Discord</a
+          >
+          and follow our
+          <a
+            href="https://twitter.com/repofime"
+            class="hover:cursor-pointer focus:cursor-pointer hover:text-[#1946BA] focus:text-[#1946BA] transition duration-200 underline"
+            target="_blank"
+            >Twitter</a
+          >
+          to get all the updates.
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { ref } from "@vue/reactivity";
+export default {
+  setup() {
+    const email = ref("");
+    const isEmailGiven = ref(false);
+    const error = ref("");
+
+    const isValidEmail = (email) => {
+      const emailRegex = /\S+@\S+\.\S+/g;
+
+      return emailRegex.test(email);
+    };
+
+    const addToWaitlist = async (email) => {
+      try {
+        const response = await fetch(
+          import.meta.env.VITE_APP_BACKEND_URL + "/waitlist",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email,
+            }),
+          }
+        );
+        console.log(response);
+        const data = await response.json();
+        console.log(data);
+        if (response.status !== 200) {
+          error.value = data.message;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const handleClick = async () => {
+      error.value = "";
+      if (email.value.length > 0) {
+        if (isValidEmail(email.value)) {
+          await addToWaitlist(email.value);
+          if (error.value === "") {
+            isEmailGiven.value = true;
+            email.value = "";
+          }
+        } else {
+          error.value = "Invalid email address";
+        }
+      } else {
+        error.value = "Please enter your email";
+      }
+    };
+
+    return {
+      email,
+      isEmailGiven,
+      error,
+      handleClick,
+    };
+  },
+};
 </script>
 
 <style>
