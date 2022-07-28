@@ -20,7 +20,7 @@
               <a href="https://twitter.com/repofime" target="_blank">
                 <img
                   src="./assets/twitter-white.svg"
-                  class="w-10 md:w-12 lg:w-10 xl:w-10 px-[2px] py-[7px] 2xl:w-14 rounded-full"
+                  class="w-8 md:w-12 lg:w-10 xl:w-10 px-[2px] py-[7px] 2xl:w-14 rounded-full"
                   alt="Follow our Twitter!"
                 />
               </a>
@@ -29,7 +29,7 @@
               <a href="https://discord.gg/sJu3cyWpzz" target="_blank">
                 <img
                   src="./assets/discord-white.svg"
-                  class="w-12 md:w-14 lg:w-12 xl:w-12 px-1 py-2 2xl:w-16"
+                  class="w-10 md:w-14 lg:w-12 xl:w-12 px-1 py-2 2xl:w-16"
                   alt="Join the community in our Discord"
                 />
               </a>
