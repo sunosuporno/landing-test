@@ -74,7 +74,7 @@
         v-if="!isEmailGiven"
         class="mt-2 md:mt-10 flex flex-col items-center font-body"
       >
-        <p class="text-xl 2xl:text-3xl mb-5">Sign up for the early beta!</p>
+        <p class="text-xl 2xl:text-3xl mb-5">Sign up for the early beta!👇</p>
         <form
           class="rounded-xl xl:w-5/12 xl:h-14 2xl:h-16 bg-gradient-to-b from-[#999999] to-[#111111] p-[2px] 2xl:p-[3px]"
         >
